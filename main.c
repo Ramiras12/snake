@@ -34,6 +34,30 @@ void death(int length, body1 *head)
   sleep(10);
   endwin();
 }
+void addmark(int *xy, body1 *head, int x, int y)
+{
+  int fx,fy;
+
+  body1 *bod;
+
+  fx = rand() % (x - 2) + 1;
+  fy = rand() % (y - 3) + 2;
+  bod = head;
+  while (bod) {
+    if (fx == bod->x && fy == bod->y) {
+      fx = rand() % (x - 2) + 1;
+      fy = rand() % (y - 3) + 2;
+      bod = head;
+    } else {
+      bod = bod->next;
+    }
+  }
+  mvaddstr(fy, fx, "F");
+  xy[0] = fx;
+  xy[1] = fy;
+  bod = NULL;
+}
+}
 
 int main(int argc, char **argv)
 {
@@ -83,6 +107,7 @@ int main(int argc, char **argv)
   bod = bod->next;
   }
 bod = player.head;
+addmark(xy, player.head, x, y);
 while (1) {
   x1 = player.head->x;
   y1 = player.head->y;
