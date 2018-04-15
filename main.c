@@ -18,9 +18,9 @@ typedef struct {
   body1 *head;
 } players;
 
-void death(int length, body *head)
+void death(int length, body1 *head)
 {
-  body *tmp_ptr;
+  body1 *tmp_ptr;
   while (head) {
     tmp_ptr = head;
     head = head->next;
@@ -45,6 +45,8 @@ int main(int argc, char **argv)
   char add_one = 0;
   int xy[2];
   int x1,y1;
+  int x2,y2;
+  int ch = ERR;
   players player;
   struct body *bod;
   initscr();
@@ -63,27 +65,27 @@ int main(int argc, char **argv)
     mvaddstr(yd, 0, "#");
     mvaddstr(yd, x - 1, "#");
   }
-mvaddstr(0, 0, "Score: 0");
-player.length = startlenght;
-player.dir = R;
-player.head = (body1*) malloc(sizeof(body1));
-bod = player.head;
-for (i = 0; i < startlenght; i++) {
-  bod->x = x / 2 - i;
-  bod->y = y / 2;
+  mvaddstr(0, 0, "Score: 0");
+  player.length = startlenght; 
+  player.dir = R;
+  player.head = (body1*) malloc(sizeof(body1));
+  bod = player.head;
+  for (i = 0; i < startlenght; i++) {
+    bod->x = x / 2 - i;
+    bod->y = y / 2;
 
-  if (i < startlenght - 1) {
-    bod->next = (body1 *) malloc(sizeof(body1));
-  } else {
-    bod->next = 0;
+    if (i < startlenght - 1) {
+     bod->next = (body1 *) malloc(sizeof(body1));
+    } else {
+      bod->next = 0;
   }
 
   bod = bod->next;
   }
 bod = player.head;
 while (1) {
-  prev_x = player.head->x;
-  prev_y = player.head->y;
+  x1 = player.head->x;
+  y1 = player.head->y;
 
   if ((ch = getch()) != ERR) {
     switch (ch) {
@@ -117,7 +119,7 @@ while (1) {
     --x1;
     break;
     case R:
-    ++x2;
+    ++x1;
     break;
   }
   // проверка на  конец игры
@@ -125,12 +127,29 @@ while (1) {
     death(player.length, player.head); 
     player.head = NULL;
     bod = NULL;
-    exit 0;
+    exit;
   } else 
   if ( y1 == xy[1] && x2 == xy[0]) {
     add_one = 1;
   }
+  bod = player.head;
+  while (bod) {
+    x2 = bod->x;
+    y2 = bod->y;
+
+    bod->x = x1;
+    bod->y = y1;
+    if (bod != player.head && bod->x == player.head->x && bod->y == player.head->y) {
+    death(player.length, player.head);
+    player.head = NULL;
+    bod = NULL;
+    exit;
+    }
+    x1 = x2;
+    y1 = y2;
+    mvaddstr(bod->y, bod->x, "0");
+    refresh();
   }
-refresh();
+}
   return 0;
 }
