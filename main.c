@@ -2,10 +2,7 @@
 #include <stdlib.h>
 #define startlenght 3
 typedef enum {
-  R,
-  D,
-  L,
-  U
+  R,D, L, U
 } dir1;
 typedef struct body {
   int x;
@@ -21,7 +18,7 @@ typedef struct {
 void death(int length, body1 *head)
 {
   body1 *tmp_ptr;
-  while (head) {
+   while (head) {
     tmp_ptr = head;
     head = head->next;
     free(tmp_ptr);
@@ -33,6 +30,7 @@ void death(int length, body1 *head)
   refresh();
   sleep(10);
   endwin();
+  curs_set(TRUE);
 }
 void addmark(int *xy, body1 *head, int x, int y)
 {
@@ -72,9 +70,8 @@ int main(int argc, char **argv)
   int x2,y2;
   int ch = ERR;
   players player;
-  struct body *bod;
+  body1 *bod;
   initscr();
-  clear();
   noecho();
   curs_set(FALSE);
   keypad(stdscr, TRUE);
@@ -147,14 +144,12 @@ while (1) {
     ++x1;
     break;
   }
-  // проверка на  конец игры
   if (y1 <= 1 || x1 == 0 || y1 == y - 1 || x1 == x - 1) {
     death(player.length, player.head); 
     player.head = NULL;
     bod = NULL;
-    exit;
-  } else 
-  if ( y1 == xy[1] && x2 == xy[0]) {
+    exit(EXIT_SUCCESS);
+  } else if ( y1 == xy[1] && x1 == xy[0]) {
     add_one = 1;
   }
   bod = player.head;
@@ -168,7 +163,7 @@ while (1) {
     death(player.length, player.head);
     player.head = NULL;
     bod = NULL;
-    exit;
+    exit(EXIT_SUCCESS);
     }
     x1 = x2;
     y1 = y2;
@@ -185,18 +180,18 @@ while (1) {
       add_one = 0;
     }
     bod= bod->next;
-    }
+  }
     if ((player.head->x != x1 || player.head->y != y1) &&
     (y1 != xy[1] || x1 != xy[0])) {
     mvaddstr(y1, x1, " ");
   }
-    refresh();
+  refresh();
     if (player.dir == U || player.dir == D) {
     usleep(160000);
   } else {
     usleep(100000);
   }
-  }
+}
 
   return 0;
 }
