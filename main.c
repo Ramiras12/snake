@@ -57,10 +57,10 @@ void addmark(int *xy, body1 *head, int x, int y)
   xy[1] = fy;
   bod = NULL;
 }
-}
 
 int main(int argc, char **argv)
 {
+  char score[5] = { '0', '\0', '\0', '\0', '\0' };
   int y;
   int x;
   int xd;
@@ -173,8 +173,30 @@ while (1) {
     x1 = x2;
     y1 = y2;
     mvaddstr(bod->y, bod->x, "0");
-    refresh();
+    if (!bod->next && add_one) {
+      bod->next = (body1 *) malloc(sizeof(body1));
+      bod->next->x = x1;
+      bod->next->y = y1;
+      bod->next->next = 0;
+      ++player.length;
+      snprintf(score, 5, "%d", player.length - startlenght);
+      mvaddstr(0, 7, score);
+      addmark(xy, player.head, x, y);
+      add_one = 0;
+    }
+    bod= bod->next;
+    }
+    if ((player.head->x != x1 || player.head->y != y1) &&
+    (y1 != xy[1] || x1 != xy[0])) {
+    mvaddstr(y1, x1, " ");
   }
-}
+    refresh();
+    if (player.dir == U || player.dir == D) {
+    usleep(160000);
+  } else {
+    usleep(100000);
+  }
+  }
+
   return 0;
 }
