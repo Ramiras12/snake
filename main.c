@@ -18,6 +18,22 @@ typedef struct {
   body1 *head;
 } players;
 
+void death(int length, body *head)
+{
+  body *tmp_ptr;
+  while (head) {
+    tmp_ptr = head;
+    head = head->next;
+    free(tmp_ptr);
+  }
+  tmp_ptr = NULL;
+  clear();
+  mvaddstr(0, 0, "YOU DIED");
+  mvprintw(1, 0, "Score: %d\n", length - startlenght);
+  refresh();
+  sleep(10);
+  endwin();
+}
 
 int main(int argc, char **argv)
 {
@@ -26,6 +42,9 @@ int main(int argc, char **argv)
   int xd;
   int yd;
   int i;
+  char add_one = 0;
+  int xy[2];
+  int x1,y1;
   players player;
   struct body *bod;
   initscr();
@@ -62,6 +81,56 @@ for (i = 0; i < startlenght; i++) {
   bod = bod->next;
   }
 bod = player.head;
+while (1) {
+  prev_x = player.head->x;
+  prev_y = player.head->y;
+
+  if ((ch = getch()) != ERR) {
+    switch (ch) {
+    case KEY_UP:
+    case 'w':
+      player.dir = U;
+      break;
+    case KEY_DOWN:
+    case 's':
+      player.dir = D;
+      break;
+    case KEY_LEFT:
+    case 'a':
+      player.dir = L;
+      break;
+    case KEY_RIGHT:
+    case 'd':
+      player.dir = R;
+      break;
+    }
+  }
+
+  switch (player.dir) {
+    case U:
+    --y1;
+    break;
+    case D:
+    ++y1;
+    break;
+    case L:
+    --x1;
+    break;
+    case R:
+    ++x2;
+    break;
+  }
+  // проверка на  конец игры
+  if (y1 <= 1 || x1 == 0 || y1 == y - 1 || x1 == x - 1) {
+    death(player.length, player.head); 
+    player.head = NULL;
+    bod = NULL;
+    exit 0;
+  } else 
+  if ( y1 == xy[1] && x2 == xy[0]) {
+    add_one = 1;
+  }
+  }
 refresh();
   return 0;
 }
