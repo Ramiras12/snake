@@ -226,9 +226,9 @@ while (1) {
   }
   refresh();
     if (player.dir == U || player.dir == D) {
-    usleep(160000);
+    usleep(16000);
   } else {
-    usleep(100000);
+    usleep(10000);
   }
 }
 
