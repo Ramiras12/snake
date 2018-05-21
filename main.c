@@ -25,6 +25,7 @@ void death(int length, body1 *head)
   }
   tmp_ptr = NULL;
   clear();
+color_set(6,NULL);
   mvaddstr(0, 0, "YOU DIED");
   mvprintw(1, 0, "Score: %d\n", length - startlenght);
   refresh();
@@ -50,10 +51,10 @@ void addmark(int *xy, body1 *head, int x, int y)
       bod = bod->next;
     }
   }
- init_pair(13, COLOR_BLACK,   COLOR_BLACK);
+ init_pair(13, COLOR_BLACK,   COLOR_YELLOW);
 color_set(13,NULL);
   mvaddstr(fy, fx, " ");
-color_set(12,NULL);
+color_set(1,NULL);
   xy[0] = fx;
   xy[1] = fy;
   bod = NULL;
@@ -95,7 +96,7 @@ int sn;
 for (ns = 1; ns<x;ns++){
 	for (sn = 1; sn<y;sn++)
 		{
-			color_set(12,NULL);
+			color_set(1,NULL);
 			mvaddstr(sn, ns, " ");
 		}
 }
@@ -112,9 +113,12 @@ for (ns = 1; ns<x;ns++){
 	color_set(9, NULL);
     mvaddstr(yd, x - 1, " ");
   }
- color_set(12, NULL);
+ init_pair(6,  COLOR_CYAN,    COLOR_BLACK);
+color_set(6, NULL);
+
   mvaddstr(0, 0, "Score: 0");
-color_set(12,NULL);
+color_set(1, NULL);
+
   player.length = startlenght; 
   player.dir = R;
   player.head = (body1*) malloc(sizeof(body1));
@@ -198,7 +202,7 @@ while (1) {
 	init_pair(7,  COLOR_BLUE,    COLOR_WHITE);
 	color_set(7,NULL);
     mvaddstr(bod->y, bod->x, " ");
-	color_set(12,NULL);
+	color_set(6,NULL);
    // mvaddstr(player.head->y, player.	head->x, "*");
     if (!bod->next && add_one) {
       bod->next = (body1 *) malloc(sizeof(body1));
@@ -215,9 +219,9 @@ while (1) {
   }
     if ((player.head->x != x1 || player.head->y != y1) &&
     (y1 != xy[1] || x1 != xy[0])) {
-	color_set(12,NULL);
+	color_set(1,NULL);
     mvaddstr(y1, x1, " ");
- color_set(12,NULL);
+ color_set(1,NULL);
 
   }
   refresh();
