@@ -50,7 +50,10 @@ void addmark(int *xy, body1 *head, int x, int y)
       bod = bod->next;
     }
   }
-  mvaddstr(fy, fx, "$");
+ init_pair(13, COLOR_BLACK,   COLOR_BLACK);
+color_set(13,NULL);
+  mvaddstr(fy, fx, " ");
+color_set(12,NULL);
   xy[0] = fx;
   xy[1] = fy;
   bod = NULL;
@@ -72,21 +75,46 @@ int main(int argc, char **argv)
   players player;
   body1 *bod;
   initscr();
-  noecho();
-  curs_set(FALSE);
+erase();
+  start_color();
+  init_pair(12, COLOR_WHITE,   COLOR_MAGENTA);
+ curs_set(FALSE);
+
+   noecho();
+if (has_colors == false) 
+{
+ printf("error");
+ return 0;
+}
   keypad(stdscr, TRUE);
   nodelay(stdscr, TRUE);
-  getmaxyx(stdscr, y, x);
+ getmaxyx(stdscr, y, x);
   srand(time(NULL));
+int ns; 
+int sn;
+for (ns = 1; ns<x;ns++){
+	for (sn = 1; sn<y;sn++)
+		{
+			color_set(12,NULL);
+			mvaddstr(sn, ns, " ");
+		}
+}
+  init_pair(9,  COLOR_BLACK,   COLOR_GREEN);
   for (xd = 0; xd < x; xd++) {
-    mvaddstr(1, xd, "=");
-    mvaddstr(y - 1, xd, "=");
+   color_set(9, NULL);
+    mvaddstr(1, xd, " ");
+    color_set(9, NULL);
+   mvaddstr(y - 1, xd, " ");
   }
   for (yd = 1; yd < y - 1; yd++) {
-    mvaddstr(yd, 0, "|");
-    mvaddstr(yd, x - 1, "|");
+     color_set(9, NULL);
+    mvaddstr(yd, 0, " ");
+	color_set(9, NULL);
+    mvaddstr(yd, x - 1, " ");
   }
+ color_set(12, NULL);
   mvaddstr(0, 0, "Score: 0");
+color_set(12,NULL);
   player.length = startlenght; 
   player.dir = R;
   player.head = (body1*) malloc(sizeof(body1));
@@ -167,7 +195,10 @@ while (1) {
     }
     x1 = x2;
     y1 = y2;
-    mvaddstr(bod->y, bod->x, "*");
+	init_pair(7,  COLOR_BLUE,    COLOR_WHITE);
+	color_set(7,NULL);
+    mvaddstr(bod->y, bod->x, " ");
+	color_set(12,NULL);
    // mvaddstr(player.head->y, player.	head->x, "*");
     if (!bod->next && add_one) {
       bod->next = (body1 *) malloc(sizeof(body1));
@@ -184,7 +215,10 @@ while (1) {
   }
     if ((player.head->x != x1 || player.head->y != y1) &&
     (y1 != xy[1] || x1 != xy[0])) {
+	color_set(12,NULL);
     mvaddstr(y1, x1, " ");
+ color_set(12,NULL);
+
   }
   refresh();
     if (player.dir == U || player.dir == D) {
