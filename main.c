@@ -26,8 +26,8 @@ void death(int length, body1 *head)
   tmp_ptr = NULL;
   clear();
 color_set(6,NULL);
-  mvaddstr(0, 0, "YOU DIED");
-  mvprintw(1, 0, "Score: %d\n", length - startlenght);
+  mvaddstr(0, 0, "Игра закончена");
+  mvprintw(1, 0, "Счет: %d\n", length - startlenght);
   refresh();
   sleep(10);
   endwin();
@@ -116,7 +116,7 @@ for (ns = 1; ns<x;ns++){
  init_pair(6,  COLOR_CYAN,    COLOR_BLACK);
 color_set(6, NULL);
 
-  mvaddstr(0, 0, "Score: 0");
+  mvaddstr(0, 0, "Счет: 0");
 color_set(1, NULL);
 
   player.length = startlenght; 
